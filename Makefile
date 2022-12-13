@@ -6,11 +6,11 @@
 #    By: tgiraudo <tgiraudo@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/11/24 11:12:25 by tgiraudo          #+#    #+#              #
-#    Updated: 2022/12/10 15:47:39 by tgiraudo         ###   ########.fr        #
+#    Updated: 2022/12/13 15:06:34 by tgiraudo         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-NAME		= 
+NAME		= philo
 
 FLAGS		= -Wall -Wextra -Werror
 
@@ -18,14 +18,16 @@ CC 			= gcc
 
 HEADER_PATH	= include/
 
-HEADER		= ${HEADER_PATH}
+HEADER		= ${HEADER_PATH}philo.h
 
 INCLUDES 	= -I ${HEADER_PATH}
 
 LIBFT 		= -L ./libft -lft 
 
-SRCS		=	srcs/main.c			\
+THREAD		= -lpthread
 
+SRCS		=	srcs/test.c			\
+				# srcs/utils.c		\
 				
 OBJS		= ${SRCS:.c=.o}
 
@@ -34,7 +36,7 @@ OBJS		= ${SRCS:.c=.o}
 
 ${NAME}		: ${OBJS}
 				@${MAKE} -C ./libft
-				@${CC} -g3 ${OBJS} ${LIBFT} -o ${NAME}
+				@${CC} -g3 ${OBJS} ${LIBFT} ${THREAD} -o ${NAME}
 				@echo "$(GREEN)$(NAME) created!$(DEFAULT)"
 
 all			: ${NAME}
