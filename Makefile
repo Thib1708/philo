@@ -6,7 +6,7 @@
 #    By: tgiraudo <tgiraudo@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/11/24 11:12:25 by tgiraudo          #+#    #+#              #
-#    Updated: 2022/12/14 14:03:17 by tgiraudo         ###   ########.fr        #
+#    Updated: 2022/12/14 18:15:49 by tgiraudo         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -22,13 +22,12 @@ HEADER		= ${HEADER_PATH}philo.h
 
 INCLUDES 	= -I ${HEADER_PATH}
 
-LIBFT 		= -L ./libft -lft 
-
 THREAD		= -lpthread -DLinux
 
 SRCS		=	srcs/main.c			\
 				srcs/utils.c		\
-				srcs/ft_philo.c
+				srcs/ft_philo.c		\
+				srcs/ft_atoi.c
 				
 OBJS		= ${SRCS:.c=.o}
 
@@ -36,8 +35,7 @@ OBJS		= ${SRCS:.c=.o}
 				@${CC} ${FLAGS} ${INCLUDES} -c $< -o $@ 
 
 ${NAME}		: ${OBJS}
-				@${MAKE} -C ./libft
-				@${CC} -g3 ${OBJS} ${LIBFT} ${THREAD} -o ${NAME}
+				@${CC} -g3 ${OBJS} -o ${NAME}
 				@echo "$(GREEN)$(NAME) created!$(DEFAULT)"
 
 all			: ${NAME}
@@ -47,7 +45,6 @@ clean		:
 				@echo "$(YELLOW)object files deleted!$(DEFAULT)"
 
 fclean		: clean
-				@${MAKE} fclean -C ./libft
 				@rm -f ${NAME}
 				@echo "$(RED)${NAME} deleted!$(DEFAULT)"
 

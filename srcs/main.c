@@ -6,7 +6,7 @@
 /*   By: tgiraudo <tgiraudo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/13 12:27:17 by tgiraudo          #+#    #+#             */
-/*   Updated: 2022/12/14 16:12:41 by tgiraudo         ###   ########.fr       */
+/*   Updated: 2022/12/14 17:52:25 by tgiraudo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,6 @@ t_args	*init_args(int argc, char **argv)
 
 	nb_philo = ft_atoi(argv[1]);
 	args = malloc(sizeof(t_args));
-	args->philo = malloc(sizeof(t_philo) * nb_philo);
 	if (!args)
 		msg_error("Error malloc");
 	args->time = ft_time();
@@ -36,24 +35,27 @@ t_args	*init_args(int argc, char **argv)
 
 void	ft_create_philo(t_args *args)
 {
-	int	ret;
-	int	i;
+	int		ret;
+	int		i;
+	t_philo	*philo;
 
+	philo = malloc(sizeof(t_philo) * args->nb_philo);
 	i = -1;
 	while (++i < args->nb_philo)
 	{
-		args->philo[i].index = i;
-		ret = pthread_create(&args->philo[i].thread, NULL, ft_philo, (void *)args);
+		philo[i].args = args;
+		philo[i].index = i;
+		ret = pthread_create(&philo[i].thread, NULL, ft_philo, &philo[i]);
 		if (ret)
 		{
-			free(args->philo);
+			free(philo);
 			msg_error("Error thread");
 		}
 	}
 	i = -1;
 	while (++i < args->nb_philo)
 	{
-		pthread_join (args->philo[i].thread, NULL);
+		pthread_join (philo[i].thread, NULL);
 	}
 }
 

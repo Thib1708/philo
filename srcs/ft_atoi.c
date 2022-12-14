@@ -5,12 +5,12 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: tgiraudo <tgiraudo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/08/07 13:19:53 by tgiraudo          #+#    #+#             */
-/*   Updated: 2022/11/16 13:37:04 by tgiraudo         ###   ########.fr       */
+/*   Created: 2022/12/14 18:12:27 by tgiraudo          #+#    #+#             */
+/*   Updated: 2022/12/14 18:12:40 by tgiraudo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include"libft.h"
+#include"philo.h"
 
 static int	ft_overflow(int signe)
 {
