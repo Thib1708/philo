@@ -6,7 +6,7 @@
 /*   By: tgiraudo <tgiraudo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/13 12:27:17 by tgiraudo          #+#    #+#             */
-/*   Updated: 2022/12/14 17:52:25 by tgiraudo         ###   ########.fr       */
+/*   Updated: 2022/12/14 18:27:49 by tgiraudo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,8 +40,8 @@ void	ft_create_philo(t_args *args)
 	t_philo	*philo;
 
 	philo = malloc(sizeof(t_philo) * args->nb_philo);
-	i = -1;
-	while (++i < args->nb_philo)
+	i = 0;
+	while (++i <= args->nb_philo)
 	{
 		philo[i].args = args;
 		philo[i].index = i;
