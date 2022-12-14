@@ -6,7 +6,7 @@
 #    By: tgiraudo <tgiraudo@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/11/24 11:12:25 by tgiraudo          #+#    #+#              #
-#    Updated: 2022/12/13 15:06:34 by tgiraudo         ###   ########.fr        #
+#    Updated: 2022/12/14 14:03:17 by tgiraudo         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -24,10 +24,11 @@ INCLUDES 	= -I ${HEADER_PATH}
 
 LIBFT 		= -L ./libft -lft 
 
-THREAD		= -lpthread
+THREAD		= -lpthread -DLinux
 
-SRCS		=	srcs/test.c			\
-				# srcs/utils.c		\
+SRCS		=	srcs/main.c			\
+				srcs/utils.c		\
+				srcs/ft_philo.c
 				
 OBJS		= ${SRCS:.c=.o}
 
