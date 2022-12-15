@@ -6,7 +6,7 @@
 /*   By: tgiraudo <tgiraudo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/13 12:26:17 by tgiraudo          #+#    #+#             */
-/*   Updated: 2022/12/15 12:02:57 by tgiraudo         ###   ########.fr       */
+/*   Updated: 2022/12/15 17:24:49 by tgiraudo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,7 @@ typedef struct s_args
 	int				fork;
 	int				n_eat;
 	pthread_mutex_t	eat;
+	pthread_mutex_t	print;
 }	t_args;
 
 typedef struct s_philo
@@ -54,5 +55,6 @@ int			ft_atoi(const char *str);
 long long	ft_current_time(long long int time);
 void		ft_take_fork(t_philo *philo, t_args *args);
 void		*is_dead(void *s);
+void	ft_usleep(int ms);
 
 #endif

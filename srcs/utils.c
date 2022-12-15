@@ -6,7 +6,7 @@
 /*   By: tgiraudo <tgiraudo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/13 13:00:00 by tgiraudo          #+#    #+#             */
-/*   Updated: 2022/12/15 13:25:27 by tgiraudo         ###   ########.fr       */
+/*   Updated: 2022/12/15 17:24:07 by tgiraudo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,8 +33,10 @@ long long int	ft_current_time(long long int time)
 
 void	ft_print(t_philo *philo, char *str)
 {
+	pthread_mutex_lock(&philo->args->print);
 	printf("\033[1;32m[%lli ms] \033[0m%d %s\n",
 		ft_current_time(philo->args->time), philo->index, str);
+	pthread_mutex_unlock(&philo->args->print);
 }
 
 void	*is_dead(void *s)
@@ -51,4 +53,13 @@ void	*is_dead(void *s)
 		}
 	}
 	return (NULL);
+}
+
+void	ft_usleep(int ms)
+{
+	long int	time;
+
+	time = ft_time();
+	while (ft_time() - time < ms)
+		usleep(ms / 10);
 }

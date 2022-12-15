@@ -6,7 +6,7 @@
 /*   By: tgiraudo <tgiraudo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/13 12:27:17 by tgiraudo          #+#    #+#             */
-/*   Updated: 2022/12/15 13:25:44 by tgiraudo         ###   ########.fr       */
+/*   Updated: 2022/12/15 17:25:45 by tgiraudo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,6 @@ int	main(int argc, char **argv)
 	(void)argv;
 	if (argc < 5 || argc > 6)
 		msg_error("Pleaser enter 4 or 5 argument");
-	ft_time();
 	args = init_args(argc, argv);
 	ft_create_philo(args);
 	return (0);
