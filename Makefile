@@ -6,7 +6,7 @@
 #    By: tgiraudo <tgiraudo@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/11/24 11:12:25 by tgiraudo          #+#    #+#              #
-#    Updated: 2022/12/14 18:15:49 by tgiraudo         ###   ########.fr        #
+#    Updated: 2022/12/15 13:32:09 by tgiraudo         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -35,7 +35,7 @@ OBJS		= ${SRCS:.c=.o}
 				@${CC} ${FLAGS} ${INCLUDES} -c $< -o $@ 
 
 ${NAME}		: ${OBJS}
-				@${CC} -g3 ${OBJS} -o ${NAME}
+				@${CC} -fsanitize=address ${OBJS} -o ${NAME}
 				@echo "$(GREEN)$(NAME) created!$(DEFAULT)"
 
 all			: ${NAME}

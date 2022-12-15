@@ -6,7 +6,7 @@
 /*   By: tgiraudo <tgiraudo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/13 12:27:17 by tgiraudo          #+#    #+#             */
-/*   Updated: 2022/12/14 18:27:49 by tgiraudo         ###   ########.fr       */
+/*   Updated: 2022/12/15 13:25:44 by tgiraudo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,19 +23,20 @@ t_args	*init_args(int argc, char **argv)
 		msg_error("Error malloc");
 	args->time = ft_time();
 	args->nb_philo = nb_philo;
-	args->die = ft_atoi(argv[2]);
-	args->eat = ft_atoi(argv[3]);
-	args->sleep = ft_atoi(argv[4]);
+	args->t_die = ft_atoi(argv[2]);
+	args->t_eat = ft_atoi(argv[3]);
+	args->t_sleep = ft_atoi(argv[4]);
+	args->n_eat = 0;
+	pthread_mutex_init(&args->eat, NULL);
 	if (argc == 6)
-		args->must_eat = ft_atoi(argv[5]);
+		args->must_eat = ft_atoi(argv[5]) * nb_philo;
 	else
-		args->must_eat = 0;
+		args->must_eat = -1;
 	return (args);
 }
 
 void	ft_create_philo(t_args *args)
 {
-	int		ret;
 	int		i;
 	t_philo	*philo;
 
@@ -45,8 +46,13 @@ void	ft_create_philo(t_args *args)
 	{
 		philo[i].args = args;
 		philo[i].index = i;
-		ret = pthread_create(&philo[i].thread, NULL, ft_philo, &philo[i]);
-		if (ret)
+		philo[i].t_last_eat = 0;
+		pthread_mutex_init(&philo[i].l_fork, NULL);
+		if (i != args->nb_philo)
+			philo[i].r_fork = &philo[i + 1].l_fork;
+		else
+			philo[i].r_fork = &philo[1].l_fork;
+		if (pthread_create(&philo[i].thread, NULL, ft_philo, &philo[i]))
 		{
 			free(philo);
 			msg_error("Error thread");
