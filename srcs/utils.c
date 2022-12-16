@@ -6,7 +6,7 @@
 /*   By: tgiraudo <tgiraudo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/13 13:00:00 by tgiraudo          #+#    #+#             */
-/*   Updated: 2022/12/15 17:24:07 by tgiraudo         ###   ########.fr       */
+/*   Updated: 2022/12/16 15:50:06 by tgiraudo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 void	msg_error(char *msg)
 {
-	printf("%s\n", msg);
+	printf("\033[1;31m[Error]\033[0m : %s\n", msg);
 	exit (0);
 }
 

@@ -6,7 +6,7 @@
 /*   By: tgiraudo <tgiraudo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/14 13:05:08 by tgiraudo          #+#    #+#             */
-/*   Updated: 2022/12/15 17:23:29 by tgiraudo         ###   ########.fr       */
+/*   Updated: 2022/12/16 15:22:43 by tgiraudo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,11 +27,15 @@ void	*ft_philo(void *s)
 	while (1)
 	{
 		ft_take_fork(philo, args);
-		if (args->n_eat >= args->must_eat - 1 && args->must_eat > 0)
-			exit(0);
-		ft_sleep(philo);
-		ft_usleep(args->t_sleep);
-		ft_think(philo);
+		ft_eat(philo, args);
+		if (philo->nb_eat == args->must_eat)
+		{
+			pthread_mutex_lock(&philo->args->eat);
+			if (++args->n_eat == args->nb_philo)
+				exit(0);
+			pthread_mutex_unlock(&args->eat);
+			return (NULL);
+		}
 	}
 	pthread_join(died, NULL);
 	return (NULL);
@@ -39,23 +43,28 @@ void	*ft_philo(void *s)
 
 void	ft_take_fork(t_philo *philo, t_args *args)
 {
+	(void)args;
 	pthread_mutex_lock(&philo->l_fork);
 	ft_print(philo, "has taken a fork");
+	if (args->nb_philo == 1)
+		return (ft_usleep(args->t_die + 1));
 	pthread_mutex_lock(philo->r_fork);
 	ft_print(philo, "has taken a fork");
-	ft_eat(philo, args);
 }
 
 void	ft_eat(t_philo *philo, t_args *args)
 {
 	ft_print(philo, "is eating");
-	philo->t_last_eat = ft_current_time(args->time);
-	ft_usleep(args->t_eat);
 	pthread_mutex_lock(&philo->args->eat);
-	args->n_eat++;
+	philo->t_last_eat = ft_current_time(args->time);
+	philo->nb_eat++;
 	pthread_mutex_unlock(&args->eat);
+	ft_usleep(args->t_eat);
 	pthread_mutex_unlock(&philo->l_fork);
 	pthread_mutex_unlock(philo->r_fork);
+	ft_print(philo, "is sleeping");
+	ft_usleep(args->t_sleep);
+	ft_print(philo, "is thinking");
 }
 
 void	ft_sleep(t_philo *philo)
