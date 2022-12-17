@@ -6,7 +6,7 @@
 /*   By: tgiraudo <tgiraudo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/13 12:27:17 by tgiraudo          #+#    #+#             */
-/*   Updated: 2022/12/16 16:02:00 by tgiraudo         ###   ########.fr       */
+/*   Updated: 2022/12/16 18:23:51 by tgiraudo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,13 +21,13 @@ t_args	*init_args(int argc, char **argv)
 	args = malloc(sizeof(t_args));
 	if (!args)
 		msg_error("Error malloc");
-	args->time = ft_time();
 	args->nb_philo = nb_philo;
 	args->t_die = ft_atoi(argv[2]);
 	args->t_eat = ft_atoi(argv[3]);
 	args->t_sleep = ft_atoi(argv[4]);
 	args->n_eat = 0;
-	pthread_mutex_init(&args->eat, NULL);
+	pthread_mutex_init(&args->m_eat, NULL);
+	pthread_mutex_init(&args->m_n_eat, NULL);
 	if (argc == 6)
 		args->must_eat = ft_atoi(argv[5]);
 	else
@@ -42,6 +42,7 @@ void	ft_create_philo(t_args *args)
 
 	philo = malloc(sizeof(t_philo) * args->nb_philo);
 	i = -1;
+	args->time = ft_time();
 	while (++i < args->nb_philo)
 	{
 		philo[i].args = args;
@@ -53,40 +54,14 @@ void	ft_create_philo(t_args *args)
 		else
 			philo[i].r_fork = &philo[0].l_fork;
 		if (pthread_create(&philo[i].thread, NULL, ft_philo, &philo[i]))
-		{
-			free(philo);
+
 			msg_error("Error thread");
-		}
 	}
 	i = -1;
 	while (++i < args->nb_philo)
 	{
 		pthread_join (philo[i].thread, NULL);
 	}
-}
-
-void	ft_check_args(int argc, char **argv)
-{
-	int i;
-	int j;
-
-	i = 0;
-	if (argc < 5 || argc > 6)
-		msg_error("number of argument different of 4 or 5");
-	while (argv[++i])
-	{
-		j = -1;
-		while(argv[i][++j])
-		{
-			if(argv[i][j] > '9' || argv[i][j] < '0')
-			{
-				if (argv[i][j] == '-')
-					msg_error("negative integer");
-				msg_error("non digit character");
-			}
-		}
-	}
-	
 }
 
 int	main(int argc, char **argv)

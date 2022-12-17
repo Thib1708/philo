@@ -6,7 +6,7 @@
 /*   By: tgiraudo <tgiraudo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/14 13:05:08 by tgiraudo          #+#    #+#             */
-/*   Updated: 2022/12/16 15:22:43 by tgiraudo         ###   ########.fr       */
+/*   Updated: 2022/12/16 18:29:19 by tgiraudo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,22 +22,24 @@ void	*ft_philo(void *s)
 	args = (t_args *)philo->args;
 	if (philo->index % 2 == 0)
 		ft_usleep(args->t_eat / 10);
-	if (pthread_create(&died, NULL, is_dead, philo))
-		msg_error("Error thread");
 	while (1)
 	{
+		pthread_create(&died, NULL, is_dead, philo);
 		ft_take_fork(philo, args);
 		ft_eat(philo, args);
+		pthread_detach(died);
 		if (philo->nb_eat == args->must_eat)
 		{
-			pthread_mutex_lock(&philo->args->eat);
+			pthread_mutex_lock(&args->m_n_eat);
 			if (++args->n_eat == args->nb_philo)
+			{
+				pthread_mutex_unlock(&args->m_n_eat);
 				exit(0);
-			pthread_mutex_unlock(&args->eat);
+			}
+			pthread_mutex_unlock(&args->m_n_eat);
 			return (NULL);
 		}
 	}
-	pthread_join(died, NULL);
 	return (NULL);
 }
 
@@ -55,10 +57,10 @@ void	ft_take_fork(t_philo *philo, t_args *args)
 void	ft_eat(t_philo *philo, t_args *args)
 {
 	ft_print(philo, "is eating");
-	pthread_mutex_lock(&philo->args->eat);
+	pthread_mutex_lock(&philo->args->m_eat);
 	philo->t_last_eat = ft_current_time(args->time);
 	philo->nb_eat++;
-	pthread_mutex_unlock(&args->eat);
+	pthread_mutex_unlock(&philo->args->m_eat);
 	ft_usleep(args->t_eat);
 	pthread_mutex_unlock(&philo->l_fork);
 	pthread_mutex_unlock(philo->r_fork);
@@ -67,12 +69,30 @@ void	ft_eat(t_philo *philo, t_args *args)
 	ft_print(philo, "is thinking");
 }
 
-void	ft_sleep(t_philo *philo)
+void	*is_dead(void *s)
 {
-	ft_print(philo, "is sleeping");
+	t_philo	*p;
+
+	p = (t_philo *)s;
+	ft_usleep(p->args->t_die + 1);
+	pthread_mutex_lock(&p->args->m_eat);
+	pthread_mutex_lock(&p->args->m_n_eat);
+	if (ft_current_time(p->args->time) - p->t_last_eat > p->args->t_die)
+	{
+		pthread_mutex_unlock(&p->args->m_eat);
+		pthread_mutex_unlock(&p->args->m_n_eat);
+		ft_print(p, "died");
+		exit(0);
+	}
+	pthread_mutex_unlock(&p->args->m_eat);
+	pthread_mutex_unlock(&p->args->m_n_eat);
+	return (NULL);
 }
 
-void	ft_think(t_philo *philo)
+void	ft_print(t_philo *philo, char *str)
 {
-	ft_print(philo, "is thinking");
+	pthread_mutex_lock(&philo->args->print);
+	printf("%lli %d %s\n",
+		ft_time() - philo->args->time, philo->index, str);
+	pthread_mutex_unlock(&philo->args->print);
 }

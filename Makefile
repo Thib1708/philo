@@ -6,7 +6,7 @@
 #    By: tgiraudo <tgiraudo@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/11/24 11:12:25 by tgiraudo          #+#    #+#              #
-#    Updated: 2022/12/15 17:55:58 by tgiraudo         ###   ########.fr        #
+#    Updated: 2022/12/16 17:17:23 by tgiraudo         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -27,7 +27,7 @@ THREAD		= -lpthread -DLinux
 SRCS		=	srcs/main.c			\
 				srcs/utils.c		\
 				srcs/ft_philo.c		\
-				srcs/ft_atoi.c
+				srcs/ft_check.c
 				
 OBJS		= ${SRCS:.c=.o}
 

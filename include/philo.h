@@ -6,7 +6,7 @@
 /*   By: tgiraudo <tgiraudo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/13 12:26:17 by tgiraudo          #+#    #+#             */
-/*   Updated: 2022/12/16 15:17:27 by tgiraudo         ###   ########.fr       */
+/*   Updated: 2022/12/16 18:23:29 by tgiraudo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,8 @@ typedef struct s_args
 	int				must_eat;
 	int				fork;
 	int				n_eat;
-	pthread_mutex_t	eat;
+	pthread_mutex_t	m_eat;
+	pthread_mutex_t	m_n_eat;
 	pthread_mutex_t	print;
 }	t_args;
 
@@ -45,17 +46,25 @@ typedef struct s_philo
 	pthread_t		thread;
 }	t_philo;
 
-void		msg_error(char *msg);
-long long	ft_time(void);
+/**************************MAIN**************************/
+t_args		*init_args(int argc, char **argv);
+void		ft_create_philo(t_args *args);
+
+/**************************CHECK*************************/
+void		ft_check_args(int argc, char **argv);
+
+/**************************PHILO*************************/
 void		*ft_philo(void *s);
-void		ft_print(t_philo *philo, char *str);
 void		ft_eat(t_philo *philo, t_args *args);
-void		ft_sleep(t_philo *philo);
-void		ft_think(t_philo *philo);
-int			ft_atoi(const char *str);
-long long	ft_current_time(long long int time);
 void		ft_take_fork(t_philo *philo, t_args *args);
 void		*is_dead(void *s);
+void		ft_print(t_philo *philo, char *str);
+
+/**************************UTILS*************************/
+void		msg_error(char *msg);
+long long	ft_time(void);
+int			ft_atoi(const char *str);
+long long	ft_current_time(long long int time);
 void		ft_usleep(int ms);
 
 #endif
