@@ -6,7 +6,7 @@
 /*   By: tgiraudo <tgiraudo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/13 12:27:17 by tgiraudo          #+#    #+#             */
-/*   Updated: 2022/12/16 18:23:51 by tgiraudo         ###   ########.fr       */
+/*   Updated: 2023/01/27 15:32:02 by tgiraudo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,14 +54,11 @@ void	ft_create_philo(t_args *args)
 		else
 			philo[i].r_fork = &philo[0].l_fork;
 		if (pthread_create(&philo[i].thread, NULL, ft_philo, &philo[i]))
-
 			msg_error("Error thread");
 	}
 	i = -1;
 	while (++i < args->nb_philo)
-	{
-		pthread_join (philo[i].thread, NULL);
-	}
+		pthread_join(philo[i].thread, NULL);
 }
 
 int	main(int argc, char **argv)

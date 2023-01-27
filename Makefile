@@ -5,54 +5,89 @@
 #                                                     +:+ +:+         +:+      #
 #    By: tgiraudo <tgiraudo@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2022/11/24 11:12:25 by tgiraudo          #+#    #+#              #
-#    Updated: 2022/12/16 17:17:23 by tgiraudo         ###   ########.fr        #
+#    Created: 2023/01/27 15:42:44 by tgiraudo          #+#    #+#              #
+#    Updated: 2023/01/27 15:45:12 by tgiraudo         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-NAME		= philo
+OS	= $(shell uname -s)
 
-FLAGS		= -Wall -Wextra -Werror
+ifeq ($(OS), Linux)
+		PRINT = @echo -ne
+endif
+ifeq ($(OS), Darwin)
+		PRINT = @printf
+endif
 
-CC 			= gcc
+# SOURCES TODO a trier
+LIST_SRCS	 = main.c	\
+				ft_check.c \
+				ft_philo.c \
+				utils.c	\
 
-HEADER_PATH	= include/
+OBJS = $(patsubst %.c, $(DIR_OBJS)%.o, $(SRCS))
+SRCS  = ${addprefix ${DIR_SRCS}, ${LIST_SRCS}}
 
-HEADER		= ${HEADER_PATH}philo.h
+# DIRECTORIES
+DIR_SRCS = srcs/
+DIR_OBJS = .objs/
+DIR_INCLUDE = include/
+D_UTILS = utils/
 
-INCLUDES 	= -I ${HEADER_PATH}
+# VARIABLES
+NAME	= philo
+CC			  = cc
+CFLAGS  = -Wall -Wextra -Werror
+RM			  = rm -rf
+MAKEFLAGS += --no-print-directory
 
-THREAD		= -lpthread -DLinux
-
-SRCS		=	srcs/main.c			\
-				srcs/utils.c		\
-				srcs/ft_philo.c		\
-				srcs/ft_check.c
-				
-OBJS		= ${SRCS:.c=.o}
-
-%.o 		: %.c ${HEADER} Makefile
-				@${CC} ${FLAGS} ${INCLUDES} -c $< -o $@ 
-
-${NAME}		: ${OBJS}
-				@${CC} -g3 ${OBJS} -o ${NAME}
-				@echo "$(GREEN)$(NAME) created!$(DEFAULT)"
-
-all			: ${NAME}
-
-clean		:
-				@rm -f ${OBJS}
-				@echo "$(YELLOW)object files deleted!$(DEFAULT)"
-
-fclean		: clean
-				@rm -f ${NAME}
-				@echo "$(RED)${NAME} deleted!$(DEFAULT)"
-
-re			: fclean all
-
-.PHONY		: all clean fclean re
-
-RED = \033[1;31m
-GREEN = \033[1;32m
-YELLOW = \033[1;33m
+# COLORS
+RED			 = \033[1;31m
+GREEN   = \033[1;32m
+YELLOW  = \033[1;33m
+BLUE	= \033[1;34m
+CYAN	= \033[1;36m
 DEFAULT = \033[0m
+SUPPR   = \r\033[2K
+
+# COMPILATION
+all :		   ${NAME}
+
+${DIR_OBJS}%.o: %.c	 ${DIR_INCLUDE}philo.h Makefile
+						@mkdir -p $(shell dirname $@)
+						@${PRINT} "${YELLOW}${SUPPR}Creating ${NAME}'s objects : $@"
+						@${CC} ${CFLAGS} -I ${DIR_INCLUDE} -c $< -o $@ 
+
+${NAME}:		ascii ${OBJS}
+						@${PRINT} "${GREEN}${SUPPR}Creating ${NAME}'s objects : DONE\n"
+						@${PRINT} "${YELLOW}Compiling ${NAME}...${DEFAULT}"
+						@${CC} ${OBJS} -o ${NAME}
+						@${PRINT} "${GREEN}${SUPPR}Compiling ${NAME} : DONE ${DEFAULT}\n\n"
+
+ascii :
+						@${PRINT} "$$ASCII"
+
+clean :		 ascii
+						@${PRINT} "${RED}Deleting objects : DONE\n"
+						@${RM} ${DIR_OBJS}
+
+fclean :		clean 
+						@${PRINT} "${RED}Deleting executable : DONE${DEFAULT}\n\n"
+						@${RM} ${NAME} 
+
+re :			fclean all
+
+define ASCII
+${CYAN}
+██████╗ ██╗  ██╗██╗██╗      ██████╗     
+██╔══██╗██║  ██║██║██║     ██╔═══██╗    
+██████╔╝███████║██║██║     ██║   ██║    
+██╔═══╝ ██╔══██║██║██║     ██║   ██║    
+██║     ██║  ██║██║███████╗╚██████╔╝    
+╚═╝     ╚═╝  ╚═╝╚═╝╚══════╝ ╚═════╝  
+${DEFAULT}
+
+endef
+export ASCII
+
+.PHONY : all re clean fclean lib ascii
