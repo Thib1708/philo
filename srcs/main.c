@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tgiraudo <tgiraudo@student.42.fr>          +#+  +:+       +#+        */
+/*   By: thibaultgiraudon <thibaultgiraudon@stud    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/13 12:27:17 by tgiraudo          #+#    #+#             */
-/*   Updated: 2023/01/27 15:32:02 by tgiraudo         ###   ########.fr       */
+/*   Updated: 2023/04/12 10:45:51 by thibaultgir      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@ t_args	*init_args(int argc, char **argv)
 	args->t_eat = ft_atoi(argv[3]);
 	args->t_sleep = ft_atoi(argv[4]);
 	args->n_eat = 0;
+	args->is_dead = 0;
 	pthread_mutex_init(&args->m_eat, NULL);
 	pthread_mutex_init(&args->m_n_eat, NULL);
 	if (argc == 6)
