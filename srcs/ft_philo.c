@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_philo.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: thibaultgiraudon <thibaultgiraudon@stud    +#+  +:+       +#+        */
+/*   By: tgiraudo <tgiraudo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/14 13:05:08 by tgiraudo          #+#    #+#             */
-/*   Updated: 2023/04/12 11:10:39 by thibaultgir      ###   ########.fr       */
+/*   Updated: 2023/04/26 12:01:28 by tgiraudo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ void	ft_take_fork(t_philo *philo, t_args *args)
 	pthread_mutex_lock(&philo->l_fork);
 	ft_print(philo, "\033[0;34mhas taken a fork\033[0m");
 	if (args->nb_philo == 1)
-		return (ft_usleep(args->t_die + 1));
+		return (ft_usleep(args->t_die * 2));
 	pthread_mutex_lock(philo->r_fork);
 	ft_print(philo, "\033[0;34mhas taken a fork\033[0m");
 }
@@ -59,15 +59,15 @@ void	ft_eat(t_philo *philo, t_args *args)
 			pthread_mutex_unlock(&args->m_n_eat);
 			pthread_mutex_unlock(&philo->args->m_eat);
 			args->is_dead = 1;
-			exit(0);
+			ft_exit(philo);
 		}
 		pthread_mutex_unlock(&args->m_n_eat);
 	}
 	pthread_mutex_unlock(&philo->args->m_eat);
 	ft_usleep(args->t_eat);
+	ft_print(philo, "\033[0;33mis sleeping\033[0m");
 	pthread_mutex_unlock(&philo->l_fork);
 	pthread_mutex_unlock(philo->r_fork);
-	ft_print(philo, "\033[0;33mis sleeping\033[0m");
 	ft_usleep(args->t_sleep);
 	ft_print(philo, "is thinking");
 }
@@ -77,24 +77,26 @@ void	*is_dead(void *s)
 	t_philo	*p;
 
 	p = (t_philo *)s;
+	if (p->args->is_dead)
+		ft_exit(p);
 	ft_usleep(p->args->t_die + 1);
 	pthread_mutex_lock(&p->args->m_eat);
-	// pthread_mutex_lock(&p->args->m_n_eat);
-	if (ft_current_time(p->args->time) - p->t_last_eat > p->args->t_die)
+	if (!p->args->is_dead && ft_current_time(p->args->time) - p->t_last_eat > p->args->t_die)
 	{
 		pthread_mutex_unlock(&p->args->m_eat);
-		// pthread_mutex_unlock(&p->args->m_n_eat);
 		ft_print(p, "\033[0;31mdied\033[0m");
+		pthread_mutex_lock(&p->args->print);
 		p->args->is_dead = 1;
-		exit(0);
+		ft_exit(p);
 	}
 	pthread_mutex_unlock(&p->args->m_eat);
-	// pthread_mutex_unlock(&p->args->m_n_eat);
 	return (NULL);
 }
 
 void	ft_print(t_philo *philo, char *str)
 {
+	if (philo->args->is_dead)
+		ft_exit(philo);
 	pthread_mutex_lock(&philo->args->print);
 	printf("%lli %d %s\n",
 		ft_time() - philo->args->time, philo->index, str);

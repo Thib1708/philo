@@ -6,23 +6,17 @@
 #    By: tgiraudo <tgiraudo@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/01/27 15:42:44 by tgiraudo          #+#    #+#              #
-#    Updated: 2023/01/27 15:45:12 by tgiraudo         ###   ########.fr        #
+#    Updated: 2023/04/26 11:40:29 by tgiraudo         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-OS	= $(shell uname -s)
+PRINT	= @printf
 
-ifeq ($(OS), Linux)
-		PRINT = @echo -ne
-endif
-ifeq ($(OS), Darwin)
-		PRINT = @printf
-endif
-
-# SOURCES TODO a trier
+# SOURCES
 LIST_SRCS	 = main.c	\
 				ft_check.c \
 				ft_philo.c \
+				ft_exit.c	\
 				utils.c	\
 
 OBJS = $(patsubst %.c, $(DIR_OBJS)%.o, $(SRCS))
@@ -61,7 +55,7 @@ ${DIR_OBJS}%.o: %.c	 ${DIR_INCLUDE}philo.h Makefile
 ${NAME}:		ascii ${OBJS}
 						@${PRINT} "${GREEN}${SUPPR}Creating ${NAME}'s objects : DONE\n"
 						@${PRINT} "${YELLOW}Compiling ${NAME}...${DEFAULT}"
-						@${CC} ${OBJS} -o ${NAME}
+						@${CC} ${OBJS} -o ${NAME} -pthread
 						@${PRINT} "${GREEN}${SUPPR}Compiling ${NAME} : DONE ${DEFAULT}\n\n"
 
 ascii :

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   philo.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: thibaultgiraudon <thibaultgiraudon@stud    +#+  +:+       +#+        */
+/*   By: tgiraudo <tgiraudo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/13 12:26:17 by tgiraudo          #+#    #+#             */
-/*   Updated: 2023/04/12 10:42:09 by thibaultgir      ###   ########.fr       */
+/*   Updated: 2023/04/26 12:01:04 by tgiraudo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,5 +68,7 @@ long long	ft_time(void);
 int			ft_atoi(const char *str);
 long long	ft_current_time(long long int time);
 void		ft_usleep(int ms);
+
+void		ft_exit(t_philo *philo);
 
 #endif
