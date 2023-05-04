@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   philo.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tgiraudo <tgiraudo@student.42.fr>          +#+  +:+       +#+        */
+/*   By: thibaultgiraudon <thibaultgiraudon@stud    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/13 12:26:17 by tgiraudo          #+#    #+#             */
-/*   Updated: 2023/04/26 12:01:04 by tgiraudo         ###   ########.fr       */
+/*   Updated: 2023/05/03 17:22:26 by thibaultgir      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,8 +57,8 @@ void		ft_check_args(int argc, char **argv);
 
 /**************************PHILO*************************/
 void		*ft_philo(void *s);
-void		ft_eat(t_philo *philo, t_args *args);
-void		ft_take_fork(t_philo *philo, t_args *args);
+int			ft_eat(t_philo *philo, t_args *args);
+int			ft_take_fork(t_philo *philo, t_args *args);
 void		*is_dead(void *s);
 void		ft_print(t_philo *philo, char *str);
 
@@ -70,5 +70,6 @@ long long	ft_current_time(long long int time);
 void		ft_usleep(int ms);
 
 void		ft_exit(t_philo *philo);
+int			ft_check_death(t_philo **philo, t_args *args);
 
 #endif

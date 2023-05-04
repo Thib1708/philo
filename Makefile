@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: tgiraudo <tgiraudo@student.42.fr>          +#+  +:+       +#+         #
+#    By: thibaultgiraudon <thibaultgiraudon@stud    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/01/27 15:42:44 by tgiraudo          #+#    #+#              #
-#    Updated: 2023/04/26 11:40:29 by tgiraudo         ###   ########.fr        #
+#    Updated: 2023/05/03 17:19:01 by thibaultgir      ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,6 +15,7 @@ PRINT	= @printf
 # SOURCES
 LIST_SRCS	 = main.c	\
 				ft_check.c \
+				ft_check_death.c	\
 				ft_philo.c \
 				ft_exit.c	\
 				utils.c	\
@@ -55,7 +56,7 @@ ${DIR_OBJS}%.o: %.c	 ${DIR_INCLUDE}philo.h Makefile
 ${NAME}:		ascii ${OBJS}
 						@${PRINT} "${GREEN}${SUPPR}Creating ${NAME}'s objects : DONE\n"
 						@${PRINT} "${YELLOW}Compiling ${NAME}...${DEFAULT}"
-						@${CC} ${OBJS} -o ${NAME} -pthread
+						@${CC} -fsanitize=address ${OBJS} -o ${NAME} -pthread
 						@${PRINT} "${GREEN}${SUPPR}Compiling ${NAME} : DONE ${DEFAULT}\n\n"
 
 ascii :
