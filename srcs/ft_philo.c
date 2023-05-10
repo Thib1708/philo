@@ -6,7 +6,7 @@
 /*   By: thibaultgiraudon <thibaultgiraudon@stud    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/14 13:05:08 by tgiraudo          #+#    #+#             */
-/*   Updated: 2023/05/04 10:22:19 by thibaultgir      ###   ########.fr       */
+/*   Updated: 2023/05/05 16:07:24 by thibaultgir      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,12 @@ void	*ft_philo(void *s)
 
 	philo = (t_philo *)s;
 	args = (t_args *)philo->args;
+	if (args->nb_philo == 1)
+	{
+		ft_print(philo, "is thinking");
+		ft_print(philo, "\033[0;34mhas taken a fork\033[0m");
+		return (NULL);
+	}
 	if (philo->index % 2 == 0)
 		ft_usleep(1);
 	while (!args->is_dead)
