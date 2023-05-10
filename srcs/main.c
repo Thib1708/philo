@@ -6,7 +6,7 @@
 /*   By: thibaultgiraudon <thibaultgiraudon@stud    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/13 12:27:17 by tgiraudo          #+#    #+#             */
-/*   Updated: 2023/05/04 10:41:43 by thibaultgir      ###   ########.fr       */
+/*   Updated: 2023/05/10 16:35:24 by thibaultgir      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,6 +67,7 @@ void	ft_create_philo(t_args *args)
 		philo[i]->t_last_eat = 0;
 		philo[i]->nb_eat = 0;
 		pthread_mutex_init(&philo[i]->l_fork, NULL);
+		pthread_mutex_init(philo[i]->r_fork, NULL);
 		if (i != args->nb_philo - 1)
 			philo[i]->r_fork = &philo[i + 1]->l_fork;
 		else
