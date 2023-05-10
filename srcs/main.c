@@ -6,7 +6,7 @@
 /*   By: thibaultgiraudon <thibaultgiraudon@stud    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/13 12:27:17 by tgiraudo          #+#    #+#             */
-/*   Updated: 2023/05/10 16:35:24 by thibaultgir      ###   ########.fr       */
+/*   Updated: 2023/05/10 16:41:17 by thibaultgir      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,8 +27,6 @@ t_args	*init_args(int argc, char **argv)
 	args->t_sleep = ft_atoi(argv[4]);
 	args->n_eat = 0;
 	args->is_dead = 0;
-	pthread_mutex_init(&args->m_eat, NULL);
-	pthread_mutex_init(&args->m_n_eat, NULL);
 	if (argc == 6)
 		args->must_eat = ft_atoi(argv[5]);
 	else
@@ -44,8 +42,10 @@ void	ft_free(t_philo **philo, t_args *args)
 	while (++i < args->nb_philo)
 	{
 		pthread_join(philo[i]->thread, NULL);
+		pthread_mutex_destroy(&philo[i]->l_fork);
 		free(philo[i]);
 	}
+	pthread_mutex_destroy(&args->print);
 	free(philo);
 }
 
@@ -67,7 +67,6 @@ void	ft_create_philo(t_args *args)
 		philo[i]->t_last_eat = 0;
 		philo[i]->nb_eat = 0;
 		pthread_mutex_init(&philo[i]->l_fork, NULL);
-		pthread_mutex_init(philo[i]->r_fork, NULL);
 		if (i != args->nb_philo - 1)
 			philo[i]->r_fork = &philo[i + 1]->l_fork;
 		else
