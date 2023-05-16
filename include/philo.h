@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   philo.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: thibaultgiraudon <thibaultgiraudon@stud    +#+  +:+       +#+        */
+/*   By: tgiraudo <tgiraudo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/13 12:26:17 by tgiraudo          #+#    #+#             */
-/*   Updated: 2023/05/15 11:32:04 by thibaultgir      ###   ########.fr       */
+/*   Updated: 2023/05/16 14:53:11 by tgiraudo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,8 @@ typedef struct s_args
 	int				is_dead;
 	pthread_mutex_t	*m_forks;
 	pthread_mutex_t	m_print;
+	pthread_mutex_t	m_eat;
+	pthread_mutex_t	m_stop;
 }	t_args;
 
 typedef struct s_philo
@@ -68,6 +70,6 @@ long long	ft_current_time(long long int time);
 void		ft_usleep(int ms);
 
 void		ft_exit(t_philo *philo);
-int			ft_check_death(t_philo **philo, t_args *args);
+int			ft_check_philo(t_philo **philo, t_args *args);
 
 #endif

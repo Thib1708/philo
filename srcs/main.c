@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: thibaultgiraudon <thibaultgiraudon@stud    +#+  +:+       +#+        */
+/*   By: tgiraudo <tgiraudo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/13 12:27:17 by tgiraudo          #+#    #+#             */
-/*   Updated: 2023/05/15 11:30:58 by thibaultgir      ###   ########.fr       */
+/*   Updated: 2023/05/16 15:11:31 by tgiraudo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,10 @@ int	ft_mutex_init(t_args *args)
 		if (pthread_mutex_init(&args->m_forks[i], NULL))
 			return (1);
 	if (pthread_mutex_init(&args->m_print, NULL))
+		return (1);
+	if (pthread_mutex_init(&args->m_stop, NULL))
+		return (1);
+	if (pthread_mutex_init(&args->m_eat, NULL))
 		return (1);
 	return (0);
 }
@@ -60,10 +64,12 @@ void	ft_free(t_philo **philo, t_args *args)
 	while (++i < args->nb_philo)
 	{
 		pthread_join(philo[i]->thread, NULL);
-		pthread_mutex_destroy(&args->m_forks[i]);
+		// pthread_mutex_destroy(&args->m_forks[i]);
 		free(philo[i]);
 	}
 	pthread_mutex_destroy(&args->m_print);
+	pthread_mutex_destroy(&args->m_stop);
+	pthread_mutex_destroy(&args->m_eat);
 	free(args->m_forks);
 	free(philo);
 }
@@ -90,7 +96,7 @@ void	ft_create_philo(t_args *args)
 		if (pthread_create(&philo[i]->thread, NULL, ft_philo, philo[i]))
 			return (ft_free(philo, args));
 	}
-	ft_check_death(philo, args);
+	ft_check_philo(philo, args);
 	ft_free(philo, args);
 }
 
