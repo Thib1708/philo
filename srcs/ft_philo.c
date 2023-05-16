@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_philo.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tgiraudo <tgiraudo@student.42.fr>          +#+  +:+       +#+        */
+/*   By: thibaultgiraudon <thibaultgiraudon@stud    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/14 13:05:08 by tgiraudo          #+#    #+#             */
-/*   Updated: 2023/05/16 14:55:37 by tgiraudo         ###   ########.fr       */
+/*   Updated: 2023/05/16 15:30:14 by thibaultgir      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,10 +77,8 @@ int ft_eat(t_philo *philo, t_args *args)
 {
 	ft_print(philo, "\033[0;35mis eating\033[0m");
 	pthread_mutex_lock(&args->m_stop);
-	pthread_mutex_lock(&args->m_eat);
 	philo->t_last_eat = ft_current_time(args->time);
 	philo->nb_eat++;
-	pthread_mutex_unlock(&args->m_eat);
 	pthread_mutex_unlock(&args->m_stop);
 	ft_usleep(args->t_eat);
 	pthread_mutex_unlock(&args->m_forks[philo->l_fork]);

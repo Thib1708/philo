@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   philo.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tgiraudo <tgiraudo@student.42.fr>          +#+  +:+       +#+        */
+/*   By: thibaultgiraudon <thibaultgiraudon@stud    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/13 12:26:17 by tgiraudo          #+#    #+#             */
-/*   Updated: 2023/05/16 14:53:11 by tgiraudo         ###   ########.fr       */
+/*   Updated: 2023/05/16 15:31:25 by thibaultgir      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,6 @@ typedef struct s_args
 	int				is_dead;
 	pthread_mutex_t	*m_forks;
 	pthread_mutex_t	m_print;
-	pthread_mutex_t	m_eat;
 	pthread_mutex_t	m_stop;
 }	t_args;
 

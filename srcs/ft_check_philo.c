@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_check_philo.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tgiraudo <tgiraudo@student.42.fr>          +#+  +:+       +#+        */
+/*   By: thibaultgiraudon <thibaultgiraudon@stud    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/03 16:47:36 by thibaultgir       #+#    #+#             */
-/*   Updated: 2023/05/16 14:54:55 by tgiraudo         ###   ########.fr       */
+/*   Updated: 2023/05/16 15:30:29 by thibaultgir      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,10 +25,8 @@ int	ft_check_death(t_philo **philo, t_args *args, int *n_eat)
 			args->is_dead = 1;
 			return (1);
 		}
-		pthread_mutex_lock(&args->m_eat);
 		if (args->must_eat > -1 && philo[i]->nb_eat >= args->must_eat)
 			*n_eat += 1;
-		pthread_mutex_unlock(&args->m_eat);
 	}
 	return (0);
 }

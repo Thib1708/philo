@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tgiraudo <tgiraudo@student.42.fr>          +#+  +:+       +#+        */
+/*   By: thibaultgiraudon <thibaultgiraudon@stud    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/13 12:27:17 by tgiraudo          #+#    #+#             */
-/*   Updated: 2023/05/16 15:11:31 by tgiraudo         ###   ########.fr       */
+/*   Updated: 2023/05/16 15:30:44 by thibaultgir      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,8 +26,6 @@ int	ft_mutex_init(t_args *args)
 	if (pthread_mutex_init(&args->m_print, NULL))
 		return (1);
 	if (pthread_mutex_init(&args->m_stop, NULL))
-		return (1);
-	if (pthread_mutex_init(&args->m_eat, NULL))
 		return (1);
 	return (0);
 }
@@ -69,7 +67,6 @@ void	ft_free(t_philo **philo, t_args *args)
 	}
 	pthread_mutex_destroy(&args->m_print);
 	pthread_mutex_destroy(&args->m_stop);
-	pthread_mutex_destroy(&args->m_eat);
 	free(args->m_forks);
 	free(philo);
 }

@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: tgiraudo <tgiraudo@student.42.fr>          +#+  +:+       +#+         #
+#    By: thibaultgiraudon <thibaultgiraudon@stud    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/01/27 15:42:44 by tgiraudo          #+#    #+#              #
-#    Updated: 2023/05/16 15:11:52 by tgiraudo         ###   ########.fr        #
+#    Updated: 2023/05/16 15:31:00 by thibaultgir      ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -56,7 +56,7 @@ ${DIR_OBJS}%.o: %.c	 ${DIR_INCLUDE}philo.h Makefile
 ${NAME}:		ascii ${OBJS}
 						@${PRINT} "${GREEN}${SUPPR}Creating ${NAME}'s objects : DONE\n"
 						@${PRINT} "${YELLOW}Compiling ${NAME}...${DEFAULT}"
-						@${CC} ${OBJS} -o ${NAME} -pthread
+						@${CC} ${OBJS} -fsanitize=thread -o ${NAME} -pthread
 						@${PRINT} "${GREEN}${SUPPR}Compiling ${NAME} : DONE ${DEFAULT}\n\n"
 
 ascii :
