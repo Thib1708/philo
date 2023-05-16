@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_check.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tgiraudo <tgiraudo@student.42.fr>          +#+  +:+       +#+        */
+/*   By: thibaultgiraudon <thibaultgiraudon@stud    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/16 17:10:10 by tgiraudo          #+#    #+#             */
-/*   Updated: 2022/12/16 17:11:40 by tgiraudo         ###   ########.fr       */
+/*   Updated: 2023/05/15 11:31:44 by thibaultgir      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ void	ft_check_args(int argc, char **argv)
 
 	i = 0;
 	if (argc < 5 || argc > 6)
-		msg_error("number of argument different of 4 or 5");
+		ft_error("number of argument different of 4 or 5");
 	while (argv[++i])
 	{
 		j = -1;
@@ -28,8 +28,8 @@ void	ft_check_args(int argc, char **argv)
 			if(argv[i][j] > '9' || argv[i][j] < '0')
 			{
 				if (argv[i][j] == '-')
-					msg_error("negative integer");
-				msg_error("non digit character");
+					ft_error("negative integer");
+				ft_error("non digit character");
 			}
 		}
 	}

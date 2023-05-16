@@ -6,7 +6,7 @@
 /*   By: thibaultgiraudon <thibaultgiraudon@stud    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/14 13:05:08 by tgiraudo          #+#    #+#             */
-/*   Updated: 2023/05/05 16:07:24 by thibaultgir      ###   ########.fr       */
+/*   Updated: 2023/05/15 11:29:21 by thibaultgir      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,19 +42,19 @@ int	ft_take_fork(t_philo *philo, t_args *args)
 {
 	if (args->is_dead)
 		return (1);
-	pthread_mutex_lock(&philo->l_fork);
+	pthread_mutex_lock(&args->m_forks[philo->l_fork]);
 	ft_print(philo, "\033[0;34mhas taken a fork\033[0m");
 	if (args->is_dead)
 	{
-		pthread_mutex_unlock(&philo->l_fork);
+		pthread_mutex_unlock(&args->m_forks[philo->l_fork]);
 		return (1);
 	}
-	pthread_mutex_lock(philo->r_fork);
+	pthread_mutex_lock(&args->m_forks[philo->r_fork]);
 	ft_print(philo, "\033[0;34mhas taken a fork\033[0m");
 	if (args->is_dead)
 	{
-		pthread_mutex_unlock(&philo->l_fork);
-		pthread_mutex_unlock(philo->r_fork);
+		pthread_mutex_unlock(&args->m_forks[philo->l_fork]);
+		pthread_mutex_unlock(&args->m_forks[philo->r_fork]);
 		return (1);
 	}
 	return (0);
@@ -67,8 +67,8 @@ int ft_eat(t_philo *philo, t_args *args)
 	philo->nb_eat++;
 	ft_usleep(args->t_eat);
 	ft_print(philo, "\033[0;33mis sleeping\033[0m");
-	pthread_mutex_unlock(&philo->l_fork);
-	pthread_mutex_unlock(philo->r_fork);
+	pthread_mutex_unlock(&args->m_forks[philo->l_fork]);
+	pthread_mutex_unlock(&args->m_forks[philo->r_fork]);
 	if (args->is_dead)
 		return (1);
 	ft_usleep(args->t_sleep);
@@ -77,11 +77,11 @@ int ft_eat(t_philo *philo, t_args *args)
 
 void	ft_print(t_philo *philo, char *str)
 {
-	pthread_mutex_lock(&philo->args->print);
 	if (!philo->args->is_dead)
 	{
+		pthread_mutex_lock(&philo->args->m_print);
 		printf("%lli %d %s\n",
 			ft_time() - philo->args->time, philo->index, str);
+		pthread_mutex_unlock(&philo->args->m_print);
 	}
-	pthread_mutex_unlock(&philo->args->print);
 }

@@ -6,11 +6,27 @@
 /*   By: thibaultgiraudon <thibaultgiraudon@stud    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/13 12:27:17 by tgiraudo          #+#    #+#             */
-/*   Updated: 2023/05/10 16:41:17 by thibaultgir      ###   ########.fr       */
+/*   Updated: 2023/05/15 11:30:58 by thibaultgir      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include"philo.h"
+
+int	ft_mutex_init(t_args *args)
+{
+	int	i;
+	
+	args->m_forks = malloc(sizeof(pthread_mutex_t) * args->nb_philo);
+	if (!args->m_forks)
+		return (1);
+	i = -1;
+	while (++i < args->nb_philo)
+		if (pthread_mutex_init(&args->m_forks[i], NULL))
+			return (1);
+	if (pthread_mutex_init(&args->m_print, NULL))
+		return (1);
+	return (0);
+}
 
 t_args	*init_args(int argc, char **argv)
 {
@@ -20,13 +36,15 @@ t_args	*init_args(int argc, char **argv)
 	nb_philo = ft_atoi(argv[1]);
 	args = malloc(sizeof(t_args));
 	if (!args)
-		msg_error("Error malloc");
+		return (NULL);
 	args->nb_philo = nb_philo;
 	args->t_die = ft_atoi(argv[2]);
 	args->t_eat = ft_atoi(argv[3]);
 	args->t_sleep = ft_atoi(argv[4]);
 	args->n_eat = 0;
 	args->is_dead = 0;
+	if (ft_mutex_init(args))
+		return (NULL);
 	if (argc == 6)
 		args->must_eat = ft_atoi(argv[5]);
 	else
@@ -42,10 +60,11 @@ void	ft_free(t_philo **philo, t_args *args)
 	while (++i < args->nb_philo)
 	{
 		pthread_join(philo[i]->thread, NULL);
-		pthread_mutex_destroy(&philo[i]->l_fork);
+		pthread_mutex_destroy(&args->m_forks[i]);
 		free(philo[i]);
 	}
-	pthread_mutex_destroy(&args->print);
+	pthread_mutex_destroy(&args->m_print);
+	free(args->m_forks);
 	free(philo);
 }
 
@@ -66,13 +85,10 @@ void	ft_create_philo(t_args *args)
 		philo[i]->index = i + 1;
 		philo[i]->t_last_eat = 0;
 		philo[i]->nb_eat = 0;
-		pthread_mutex_init(&philo[i]->l_fork, NULL);
-		if (i != args->nb_philo - 1)
-			philo[i]->r_fork = &philo[i + 1]->l_fork;
-		else
-			philo[i]->r_fork = &philo[0]->l_fork;
+		philo[i]->l_fork = i;
+		philo[i]->r_fork = (i + 1) % args->nb_philo;
 		if (pthread_create(&philo[i]->thread, NULL, ft_philo, philo[i]))
-			msg_error("Error thread");
+			return (ft_free(philo, args));
 	}
 	ft_check_death(philo, args);
 	ft_free(philo, args);

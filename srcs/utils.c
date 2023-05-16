@@ -6,13 +6,13 @@
 /*   By: thibaultgiraudon <thibaultgiraudon@stud    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/13 13:00:00 by tgiraudo          #+#    #+#             */
-/*   Updated: 2023/05/04 12:52:08 by thibaultgir      ###   ########.fr       */
+/*   Updated: 2023/05/15 11:31:54 by thibaultgir      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include"philo.h"
 
-void	msg_error(char *msg)
+void	ft_error(char *msg)
 {
 	printf("\033[1;31m[Error]\033[0m : %s\n", msg);
 	exit (0);

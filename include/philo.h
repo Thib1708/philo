@@ -6,7 +6,7 @@
 /*   By: thibaultgiraudon <thibaultgiraudon@stud    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/13 12:26:17 by tgiraudo          #+#    #+#             */
-/*   Updated: 2023/05/03 17:22:26 by thibaultgir      ###   ########.fr       */
+/*   Updated: 2023/05/15 11:32:04 by thibaultgir      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,10 +31,8 @@ typedef struct s_args
 	int				fork;
 	int				n_eat;
 	int				is_dead;
-	pthread_mutex_t	m_eat;
-	pthread_mutex_t	m_n_eat;
-	pthread_mutex_t	print;
-	pthread_mutex_t	dead;
+	pthread_mutex_t	*m_forks;
+	pthread_mutex_t	m_print;
 }	t_args;
 
 typedef struct s_philo
@@ -43,8 +41,8 @@ typedef struct s_philo
 	int				index;
 	long long		t_last_eat;
 	int				nb_eat;
-	pthread_mutex_t	*r_fork;
-	pthread_mutex_t	l_fork;
+	int				l_fork;
+	int				r_fork;
 	pthread_t		thread;
 }	t_philo;
 
@@ -63,7 +61,7 @@ void		*is_dead(void *s);
 void		ft_print(t_philo *philo, char *str);
 
 /**************************UTILS*************************/
-void		msg_error(char *msg);
+void		ft_error(char *msg);
 long long	ft_time(void);
 int			ft_atoi(const char *str);
 long long	ft_current_time(long long int time);
