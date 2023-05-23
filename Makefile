@@ -6,7 +6,7 @@
 #    By: thibaultgiraudon <thibaultgiraudon@stud    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/01/27 15:42:44 by tgiraudo          #+#    #+#              #
-#    Updated: 2023/05/16 15:31:00 by thibaultgir      ###   ########.fr        #
+#    Updated: 2023/05/23 17:04:40 by thibaultgir      ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -46,14 +46,14 @@ DEFAULT = \033[0m
 SUPPR   = \r\033[2K
 
 # COMPILATION
-all :		   ${NAME}
+all :		  ascii ${NAME}
 
 ${DIR_OBJS}%.o: %.c	 ${DIR_INCLUDE}philo.h Makefile
 						@mkdir -p $(shell dirname $@)
 						@${PRINT} "${YELLOW}${SUPPR}Creating ${NAME}'s objects : $@"
 						@${CC} ${CFLAGS} -I ${DIR_INCLUDE} -c $< -o $@ 
 
-${NAME}:		ascii ${OBJS}
+${NAME}:		${OBJS}
 						@${PRINT} "${GREEN}${SUPPR}Creating ${NAME}'s objects : DONE\n"
 						@${PRINT} "${YELLOW}Compiling ${NAME}...${DEFAULT}"
 						@${CC} ${OBJS} -fsanitize=thread -o ${NAME} -pthread
