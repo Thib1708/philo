@@ -8,12 +8,12 @@ To install and use Philosophers, follow these steps:
 
 1. Clone the Philosophers repository from GitHub:
    ```
-   git clone https://github.com/username/philosophers.git
+   git clone https://github.com/Thib1708/philo.git
    ```
 
 2. Change into the project directory:
    ```
-   cd philosophers
+   cd philo
    ```
 
 3. Compile the Philosophers program using the provided Makefile:
@@ -30,7 +30,7 @@ Note: Philosophers requires a Unix-like operating system and a C compiler (e.g.,
 To use Philosophers, follow the syntax:
 
 ```
-./philosophers number_of_philosophers time_to_die time_to_eat time_to_sleep [number_of_times_each_philosopher_must_eat]
+./philo number_of_philosophers time_to_die time_to_eat time_to_sleep [number_of_times_each_philosopher_must_eat]
 ```
 
 - `number_of_philosophers`: The number of philosophers sitting at the table.
@@ -42,7 +42,7 @@ To use Philosophers, follow the syntax:
 Example usage:
 
 ```
-./philosophers 5 800 200 200
+./philo 5 800 200 200
 ```
 
 This command will simulate a table with 5 philosophers, a time-to-die of 800 milliseconds, a time-to-eat of 200 milliseconds, and a time-to-sleep of 200 milliseconds. The simulation will continue until a philosopher dies or the program is manually interrupted.
