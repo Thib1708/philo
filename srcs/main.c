@@ -6,7 +6,7 @@
 /*   By: thibaultgiraudon <thibaultgiraudon@stud    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/13 12:27:17 by tgiraudo          #+#    #+#             */
-/*   Updated: 2023/05/16 15:30:44 by thibaultgir      ###   ########.fr       */
+/*   Updated: 2023/06/07 12:38:33 by thibaultgir      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 int	ft_mutex_init(t_args *args)
 {
 	int	i;
-	
+
 	args->m_forks = malloc(sizeof(pthread_mutex_t) * args->nb_philo);
 	if (!args->m_forks)
 		return (1);

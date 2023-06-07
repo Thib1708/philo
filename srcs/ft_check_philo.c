@@ -6,7 +6,7 @@
 /*   By: thibaultgiraudon <thibaultgiraudon@stud    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/03 16:47:36 by thibaultgir       #+#    #+#             */
-/*   Updated: 2023/05/16 15:30:29 by thibaultgir      ###   ########.fr       */
+/*   Updated: 2023/06/07 12:38:09 by thibaultgir      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,8 @@
 
 int	ft_check_death(t_philo **philo, t_args *args, int *n_eat)
 {
-	int i;
-	
+	int	i;
+
 	i = -1;
 	while (++i < args->nb_philo)
 	{
@@ -33,8 +33,8 @@ int	ft_check_death(t_philo **philo, t_args *args, int *n_eat)
 
 int	ft_check_philo(t_philo **philo, t_args *args)
 {
-	int n_eat;
-	
+	int	n_eat;
+
 	while (1)
 	{
 		n_eat = 0;

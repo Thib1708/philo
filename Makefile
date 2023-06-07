@@ -6,7 +6,7 @@
 #    By: thibaultgiraudon <thibaultgiraudon@stud    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/01/27 15:42:44 by tgiraudo          #+#    #+#              #
-#    Updated: 2023/05/23 17:04:40 by thibaultgir      ###   ########.fr        #
+#    Updated: 2023/06/07 12:39:18 by thibaultgir      ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -17,7 +17,6 @@ LIST_SRCS	 = main.c	\
 				ft_check.c \
 				ft_check_philo.c	\
 				ft_philo.c \
-				ft_exit.c	\
 				utils.c	\
 
 OBJS = $(patsubst %.c, $(DIR_OBJS)%.o, $(SRCS))
@@ -56,7 +55,7 @@ ${DIR_OBJS}%.o: %.c	 ${DIR_INCLUDE}philo.h Makefile
 ${NAME}:		${OBJS}
 						@${PRINT} "${GREEN}${SUPPR}Creating ${NAME}'s objects : DONE\n"
 						@${PRINT} "${YELLOW}Compiling ${NAME}...${DEFAULT}"
-						@${CC} ${OBJS} -fsanitize=thread -o ${NAME} -pthread
+						@${CC} ${OBJS} -o ${NAME} -pthread
 						@${PRINT} "${GREEN}${SUPPR}Compiling ${NAME} : DONE ${DEFAULT}\n\n"
 
 ascii :

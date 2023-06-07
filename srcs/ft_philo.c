@@ -6,7 +6,7 @@
 /*   By: thibaultgiraudon <thibaultgiraudon@stud    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/14 13:05:08 by tgiraudo          #+#    #+#             */
-/*   Updated: 2023/05/16 15:30:14 by thibaultgir      ###   ########.fr       */
+/*   Updated: 2023/06/07 12:41:28 by thibaultgir      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,7 @@ int	ft_take_fork(t_philo *philo, t_args *args)
 	return (0);
 }
 
-int ft_eat(t_philo *philo, t_args *args)
+int	ft_eat(t_philo *philo, t_args *args)
 {
 	ft_print(philo, "\033[0;35mis eating\033[0m");
 	pthread_mutex_lock(&args->m_stop);
