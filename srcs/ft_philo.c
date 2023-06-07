@@ -6,7 +6,7 @@
 /*   By: thibaultgiraudon <thibaultgiraudon@stud    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/14 13:05:08 by tgiraudo          #+#    #+#             */
-/*   Updated: 2023/06/07 12:41:28 by thibaultgir      ###   ########.fr       */
+/*   Updated: 2023/06/07 14:06:21 by thibaultgir      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,19 +19,19 @@ void	*ft_philo(void *s)
 
 	philo = (t_philo *)s;
 	args = (t_args *)philo->args;
+	if (philo->index % 2)
+		ft_usleep(1);
 	if (args->nb_philo == 1)
 	{
 		ft_print(philo, "is thinking");
 		ft_print(philo, "\033[0;34mhas taken a fork\033[0m");
 		return (NULL);
 	}
-	if (philo->index % 2 == 0)
-		ft_usleep(1);
-	while (!args->is_dead)
+	while (!philo->is_dead)
 	{
 		ft_print(philo, "is thinking");
-		if (ft_take_fork(philo, args))
-			return (NULL);
+		// if (ft_take_fork(philo, args))
+		// 	return (NULL);
 		if (ft_eat(philo, args))
 			return (NULL);
 		ft_print(philo, "\033[0;33mis sleeping\033[0m");
@@ -56,14 +56,14 @@ int	ft_take_fork(t_philo *philo, t_args *args)
 {
 	ft_swap_fork(philo);
 	pthread_mutex_lock(&args->m_forks[philo->l_fork]);
-	if (args->is_dead)
+	if (philo->is_dead)
 	{
 		pthread_mutex_unlock(&args->m_forks[philo->l_fork]);
 		return (1);
 	}
 	ft_print(philo, "\033[0;34mhas taken a fork\033[0m");
 	pthread_mutex_lock(&args->m_forks[philo->r_fork]);
-	if (args->is_dead)
+	if (philo->is_dead)
 	{
 		pthread_mutex_unlock(&args->m_forks[philo->l_fork]);
 		pthread_mutex_unlock(&args->m_forks[philo->r_fork]);
@@ -75,6 +75,8 @@ int	ft_take_fork(t_philo *philo, t_args *args)
 
 int	ft_eat(t_philo *philo, t_args *args)
 {
+	if (ft_take_fork(philo, args))
+		return (1);
 	ft_print(philo, "\033[0;35mis eating\033[0m");
 	pthread_mutex_lock(&args->m_stop);
 	philo->t_last_eat = ft_current_time(args->time);
@@ -83,7 +85,7 @@ int	ft_eat(t_philo *philo, t_args *args)
 	ft_usleep(args->t_eat);
 	pthread_mutex_unlock(&args->m_forks[philo->l_fork]);
 	pthread_mutex_unlock(&args->m_forks[philo->r_fork]);
-	if (args->is_dead)
+	if (philo->is_dead)
 		return (1);
 	return (0);
 }

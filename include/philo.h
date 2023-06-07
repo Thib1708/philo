@@ -6,7 +6,7 @@
 /*   By: thibaultgiraudon <thibaultgiraudon@stud    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/13 12:26:17 by tgiraudo          #+#    #+#             */
-/*   Updated: 2023/05/16 15:31:25 by thibaultgir      ###   ########.fr       */
+/*   Updated: 2023/06/07 13:47:36 by thibaultgir      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,7 @@ typedef struct s_philo
 	int				nb_eat;
 	int				l_fork;
 	int				r_fork;
+	int				is_dead;
 	pthread_t		thread;
 }	t_philo;
 

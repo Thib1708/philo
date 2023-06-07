@@ -6,7 +6,7 @@
 /*   By: thibaultgiraudon <thibaultgiraudon@stud    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/13 12:27:17 by tgiraudo          #+#    #+#             */
-/*   Updated: 2023/06/07 12:38:33 by thibaultgir      ###   ########.fr       */
+/*   Updated: 2023/06/07 14:04:51 by thibaultgir      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,14 +59,27 @@ void	ft_free(t_philo **philo, t_args *args)
 	int	i;
 
 	i = -1;
+	pthread_mutex_lock(&args->m_stop);
+	args->is_dead = 1;
+	pthread_mutex_unlock(&args->m_stop);
+	i = -1;
 	while (++i < args->nb_philo)
 	{
-		pthread_join(philo[i]->thread, NULL);
-		// pthread_mutex_destroy(&args->m_forks[i]);
-		free(philo[i]);
+		pthread_mutex_lock(&args->m_stop);
+		philo[i]->is_dead = 1;
+		pthread_mutex_unlock(&args->m_stop);
 	}
+	i = -1;
+	while (++i < args->nb_philo)
+		pthread_join(philo[i]->thread, NULL);
+	i = -1;
+	while (++i < args->nb_philo)
+		pthread_mutex_destroy(&args->m_forks[i]);
+		i = -1;
 	pthread_mutex_destroy(&args->m_print);
 	pthread_mutex_destroy(&args->m_stop);
+	while (++i < args->nb_philo)
+		free(philo[i]);
 	free(args->m_forks);
 	free(philo);
 }
@@ -88,6 +101,7 @@ void	ft_create_philo(t_args *args)
 		philo[i]->index = i + 1;
 		philo[i]->t_last_eat = 0;
 		philo[i]->nb_eat = 0;
+		philo[i]->is_dead = 0;
 		philo[i]->l_fork = i;
 		philo[i]->r_fork = (i + 1) % args->nb_philo;
 		if (pthread_create(&philo[i]->thread, NULL, ft_philo, philo[i]))

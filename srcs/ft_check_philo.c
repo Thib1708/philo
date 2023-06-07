@@ -6,7 +6,7 @@
 /*   By: thibaultgiraudon <thibaultgiraudon@stud    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/03 16:47:36 by thibaultgir       #+#    #+#             */
-/*   Updated: 2023/06/07 12:38:09 by thibaultgir      ###   ########.fr       */
+/*   Updated: 2023/06/07 14:07:13 by thibaultgir      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,7 @@ int	ft_check_philo(t_philo **philo, t_args *args)
 	while (1)
 	{
 		n_eat = 0;
+		ft_usleep(1);
 		pthread_mutex_lock(&args->m_stop);
 		if (ft_check_death(philo, args, &n_eat))
 		{
@@ -47,7 +48,7 @@ int	ft_check_philo(t_philo **philo, t_args *args)
 		pthread_mutex_unlock(&args->m_stop);
 		if (args->nb_philo == n_eat)
 		{
-			args->is_dead = 1;
+			// args->is_dead = 1;
 			return (1);
 		}
 	}
