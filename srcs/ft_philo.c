@@ -6,7 +6,7 @@
 /*   By: tgiraudo <tgiraudo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/14 13:05:08 by tgiraudo          #+#    #+#             */
-/*   Updated: 2023/06/13 11:45:43 by tgiraudo         ###   ########.fr       */
+/*   Updated: 2023/06/13 11:55:14 by tgiraudo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,7 +93,7 @@ int	ft_eat(t_philo *philo, t_args *args)
 void	ft_print(t_philo *philo, char *str)
 {
 	pthread_mutex_lock(&philo->args->m_print);
-	if (!philo->args->is_dead)
+	if (!philo->is_dead)
 	{
 		printf("%lli %d %s\n",
 			ft_time() - philo->args->time, philo->index, str);

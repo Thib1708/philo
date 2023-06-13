@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: thibaultgiraudon <thibaultgiraudon@stud    +#+  +:+       +#+        */
+/*   By: tgiraudo <tgiraudo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/13 13:00:00 by tgiraudo          #+#    #+#             */
-/*   Updated: 2023/06/07 14:00:50 by thibaultgir      ###   ########.fr       */
+/*   Updated: 2023/06/13 12:01:33 by tgiraudo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,6 @@ long long int	ft_current_time(long long int time)
 void	ft_usleep(int ms)
 {
 	long int	time;
-	// ms = ms / 1000;
 
 	time = ft_time();
 	while (ft_time() - time < ms)
