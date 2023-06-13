@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: thibaultgiraudon <thibaultgiraudon@stud    +#+  +:+       +#+        */
+/*   By: tgiraudo <tgiraudo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/13 12:27:17 by tgiraudo          #+#    #+#             */
-/*   Updated: 2023/06/07 14:04:51 by thibaultgir      ###   ########.fr       */
+/*   Updated: 2023/06/13 11:44:28 by tgiraudo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,7 @@ void	ft_free(t_philo **philo, t_args *args)
 	i = -1;
 	while (++i < args->nb_philo)
 		pthread_mutex_destroy(&args->m_forks[i]);
-		i = -1;
+	i = -1;
 	pthread_mutex_destroy(&args->m_print);
 	pthread_mutex_destroy(&args->m_stop);
 	while (++i < args->nb_philo)
@@ -95,6 +95,7 @@ void	ft_create_philo(t_args *args)
 		philo[i] = malloc(sizeof(t_philo));
 	i = -1;
 	args->time = ft_time();
+	// pthread_mutex_lock(&args->m_stop);
 	while (++i < args->nb_philo)
 	{
 		philo[i]->args = args;
@@ -107,6 +108,7 @@ void	ft_create_philo(t_args *args)
 		if (pthread_create(&philo[i]->thread, NULL, ft_philo, philo[i]))
 			return (ft_free(philo, args));
 	}
+	// pthread_mutex_unlock(&args->m_stop);
 	ft_check_philo(philo, args);
 	ft_free(philo, args);
 }

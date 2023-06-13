@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_philo.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: thibaultgiraudon <thibaultgiraudon@stud    +#+  +:+       +#+        */
+/*   By: tgiraudo <tgiraudo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/14 13:05:08 by tgiraudo          #+#    #+#             */
-/*   Updated: 2023/06/07 14:06:21 by thibaultgir      ###   ########.fr       */
+/*   Updated: 2023/06/13 11:45:43 by tgiraudo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,8 +30,6 @@ void	*ft_philo(void *s)
 	while (!philo->is_dead)
 	{
 		ft_print(philo, "is thinking");
-		// if (ft_take_fork(philo, args))
-		// 	return (NULL);
 		if (ft_eat(philo, args))
 			return (NULL);
 		ft_print(philo, "\033[0;33mis sleeping\033[0m");
@@ -85,8 +83,10 @@ int	ft_eat(t_philo *philo, t_args *args)
 	ft_usleep(args->t_eat);
 	pthread_mutex_unlock(&args->m_forks[philo->l_fork]);
 	pthread_mutex_unlock(&args->m_forks[philo->r_fork]);
+	pthread_mutex_lock(&args->m_stop);
 	if (philo->is_dead)
-		return (1);
+		return (pthread_mutex_unlock(&args->m_stop), 1);
+	pthread_mutex_unlock(&args->m_stop);
 	return (0);
 }
 
