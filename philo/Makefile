@@ -6,7 +6,7 @@
 #    By: tgiraudo <tgiraudo@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/01/27 15:42:44 by tgiraudo          #+#    #+#              #
-#    Updated: 2023/06/13 16:41:20 by tgiraudo         ###   ########.fr        #
+#    Updated: 2023/06/13 18:05:33 by tgiraudo         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -17,9 +17,11 @@ LIST_SRCS	 =	main.c				\
 				ft_atoi.c			\
 				ft_check_args.c		\
 				ft_check_philo.c	\
+				ft_init_args.c		\
 				ft_philo.c 			\
 				ft_print.c			\
 				ft_utils.c			\
+				ft_free.c			\
 
 OBJS = $(patsubst %.c, $(DIR_OBJS)%.o, $(SRCS))
 SRCS  = ${addprefix ${DIR_SRCS}, ${LIST_SRCS}}
@@ -33,7 +35,7 @@ D_UTILS = utils/
 # VARIABLES
 NAME	= philo
 CC			  = cc
-CFLAGS  = -Wall -Wextra -Werror -g3
+CFLAGS  = -Wall -Wextra -Werror -O2 -g3
 RM			  = rm -rf
 MAKEFLAGS += --no-print-directory
 
@@ -57,7 +59,7 @@ ${DIR_OBJS}%.o: %.c	 ${DIR_INCLUDE}philo.h Makefile
 ${NAME}:		${OBJS}
 						@${PRINT} "${GREEN}${SUPPR}Creating ${NAME}'s objects : DONE\n"
 						@${PRINT} "${YELLOW}Compiling ${NAME}...${DEFAULT}"
-						@${CC} ${OBJS} -o ${NAME} -pthread -fsanitize=address
+						@${CC} ${CFLAGS} ${OBJS} -o ${NAME} -pthread -fsanitize=address
 						@${PRINT} "${GREEN}${SUPPR}Compiling ${NAME} : DONE ${DEFAULT}\n\n"
 
 ascii :

@@ -6,7 +6,7 @@
 /*   By: tgiraudo <tgiraudo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/13 12:26:17 by tgiraudo          #+#    #+#             */
-/*   Updated: 2023/06/13 16:21:00 by tgiraudo         ###   ########.fr       */
+/*   Updated: 2023/06/13 18:07:20 by tgiraudo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@
 # include <stdio.h>
 # include <unistd.h>
 
-#define INT_MAX 2147483647
+# define INT_MAX 2147483647
 
 typedef struct s_args
 {
@@ -51,7 +51,7 @@ typedef struct s_philo
 }	t_philo;
 
 /**************************MAIN**************************/
-t_args		*init_args(int argc, char **argv);
+t_args		*ft_init_args(int argc, char **argv);
 void		ft_create_philo(t_args *args);
 
 /**************************CHECK*************************/
@@ -59,9 +59,6 @@ void		ft_check_args(int argc, char **argv);
 
 /**************************PHILO*************************/
 void		*ft_philo(void *s);
-int			ft_eat(t_philo *philo, t_args *args);
-int			ft_take_fork(t_philo *philo, t_args *args);
-void		*is_dead(void *s);
 void		ft_print(t_philo *philo, char *str);
 
 /**************************UTILS*************************/
@@ -71,7 +68,7 @@ int			ft_atoi(const char *str);
 long long	ft_current_time(long long int time);
 void		ft_usleep(int ms);
 
-void		ft_exit(t_philo *philo);
 int			ft_check_philo(t_philo **philo, t_args *args);
+void		ft_free(t_philo **philo, t_args *args);
 
 #endif
