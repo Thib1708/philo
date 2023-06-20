@@ -6,7 +6,7 @@
 /*   By: tgiraudo <tgiraudo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/14 13:05:08 by tgiraudo          #+#    #+#             */
-/*   Updated: 2023/06/13 18:06:20 by tgiraudo         ###   ########.fr       */
+/*   Updated: 2023/06/20 11:28:10 by tgiraudo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,19 +28,25 @@ static int	ft_take_fork(t_philo *philo, t_args *args)
 {
 	ft_swap_fork(philo);
 	pthread_mutex_lock(&args->m_forks[philo->l_fork]);
+	pthread_mutex_lock(&args->m_stop);
 	if (philo->is_dead)
 	{
 		pthread_mutex_unlock(&args->m_forks[philo->l_fork]);
+		pthread_mutex_unlock(&args->m_stop);
 		return (1);
 	}
+	pthread_mutex_unlock(&args->m_stop);
 	ft_print(philo, "\033[0;34mhas taken a fork\033[0m");
 	pthread_mutex_lock(&args->m_forks[philo->r_fork]);
+	pthread_mutex_lock(&args->m_stop);
 	if (philo->is_dead)
 	{
+		pthread_mutex_unlock(&args->m_stop);
 		pthread_mutex_unlock(&args->m_forks[philo->l_fork]);
 		pthread_mutex_unlock(&args->m_forks[philo->r_fork]);
 		return (1);
 	}
+	pthread_mutex_unlock(&args->m_stop);
 	ft_print(philo, "\033[0;34mhas taken a fork\033[0m");
 	return (0);
 }
@@ -75,8 +81,8 @@ void	*ft_philo(void *s)
 	args = (t_args *)philo->args;
 	pthread_mutex_lock(&args->m_stop);
 	pthread_mutex_unlock(&args->m_stop);
-	philo->args->time = ft_time();
-	philo->t_last_eat = philo->args->time;
+	// philo->args->time = ft_time();
+	// philo->t_last_eat = philo->args->time;
 	if (philo->index % 2 == 0)
 		ft_usleep(100);
 	if (args->nb_philo == 1)
@@ -85,11 +91,25 @@ void	*ft_philo(void *s)
 		ft_print(philo, "\033[0;34mhas taken a fork\033[0m");
 		return (NULL);
 	}
-	while (!philo->is_dead)
+	while (1)
 	{
+		pthread_mutex_lock(&args->m_stop);
+		if (philo->is_dead)
+		{
+			pthread_mutex_unlock(&args->m_stop);
+			break ;
+		}
+		pthread_mutex_unlock(&args->m_stop);
 		if (ft_eat(philo, args))
 			return (NULL);
 		ft_print(philo, "is thinking");
+		pthread_mutex_lock(&args->m_stop);
+		if (philo->is_dead)
+		{
+			pthread_mutex_unlock(&args->m_stop);
+			break ;
+		}
+		pthread_mutex_unlock(&args->m_stop);
 	}
 	return (NULL);
 }

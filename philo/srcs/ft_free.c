@@ -6,7 +6,7 @@
 /*   By: tgiraudo <tgiraudo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/13 17:51:25 by tgiraudo          #+#    #+#             */
-/*   Updated: 2023/06/13 18:04:08 by tgiraudo         ###   ########.fr       */
+/*   Updated: 2023/06/20 11:24:35 by tgiraudo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,9 @@ void	ft_free(t_philo **philo, t_args *args)
 	while (++i < args->nb_philo)
 	{
 		pthread_mutex_lock(&args->m_stop);
+		pthread_mutex_lock(&args->m_print);
 		philo[i]->is_dead = 1;
+		pthread_mutex_unlock(&args->m_print);
 		pthread_mutex_unlock(&args->m_stop);
 	}
 	i = -1;

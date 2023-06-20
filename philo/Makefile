@@ -6,7 +6,7 @@
 #    By: tgiraudo <tgiraudo@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/01/27 15:42:44 by tgiraudo          #+#    #+#              #
-#    Updated: 2023/06/13 18:05:33 by tgiraudo         ###   ########.fr        #
+#    Updated: 2023/06/20 11:23:51 by tgiraudo         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -35,7 +35,7 @@ D_UTILS = utils/
 # VARIABLES
 NAME	= philo
 CC			  = cc
-CFLAGS  = -Wall -Wextra -Werror -O2 -g3
+CFLAGS  = -Wall -Wextra -Werror -O2 -g3 -fsanitize=thread
 RM			  = rm -rf
 MAKEFLAGS += --no-print-directory
 
@@ -59,7 +59,7 @@ ${DIR_OBJS}%.o: %.c	 ${DIR_INCLUDE}philo.h Makefile
 ${NAME}:		${OBJS}
 						@${PRINT} "${GREEN}${SUPPR}Creating ${NAME}'s objects : DONE\n"
 						@${PRINT} "${YELLOW}Compiling ${NAME}...${DEFAULT}"
-						@${CC} ${CFLAGS} ${OBJS} -o ${NAME} -pthread -fsanitize=address
+						@${CC} ${CFLAGS} ${OBJS} -o ${NAME} -pthread
 						@${PRINT} "${GREEN}${SUPPR}Compiling ${NAME} : DONE ${DEFAULT}\n\n"
 
 ascii :
