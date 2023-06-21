@@ -6,7 +6,7 @@
 /*   By: tgiraudo <tgiraudo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/03 16:47:36 by thibaultgir       #+#    #+#             */
-/*   Updated: 2023/06/20 11:17:11 by tgiraudo         ###   ########.fr       */
+/*   Updated: 2023/06/21 12:42:23 by tgiraudo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,8 +22,8 @@ int	ft_check_death(t_philo **philo, t_args *args, int *n_eat)
 		if (ft_current_time(args->time) - philo[i]->t_last_eat > args->t_die)
 		{
 			printf("%lli %d %s\n",
-			ft_time() - philo[i]->args->time, philo[i]->index, "\033[0;31mdied\033[0m");
-			// ft_print(philo[i], "\033[0;31mdied\033[0m");
+				ft_time() - philo[i]->args->time, philo[i]->index, \
+				"\033[0;31mdied\033[0m");
 			pthread_mutex_lock(&args->m_print);
 			args->is_dead = 1;
 			pthread_mutex_unlock(&args->m_print);
