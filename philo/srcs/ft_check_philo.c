@@ -6,13 +6,13 @@
 /*   By: tgiraudo <tgiraudo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/03 16:47:36 by thibaultgir       #+#    #+#             */
-/*   Updated: 2023/06/21 12:42:23 by tgiraudo         ###   ########.fr       */
+/*   Updated: 2023/08/23 08:40:05 by tgiraudo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-int	ft_check_death(t_philo **philo, t_args *args, int *n_eat)
+static int	ft_check_death(t_philo **philo, t_args *args, int *n_eat)
 {
 	int	i;
 
@@ -42,7 +42,7 @@ int	ft_check_philo(t_philo **philo, t_args *args)
 	while (1)
 	{
 		n_eat = 0;
-		ft_usleep(1);
+		ft_usleep(1, philo[0]);
 		pthread_mutex_lock(&args->m_stop);
 		if (ft_check_death(philo, args, &n_eat))
 		{

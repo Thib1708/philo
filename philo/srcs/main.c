@@ -6,11 +6,31 @@
 /*   By: tgiraudo <tgiraudo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/13 12:27:17 by tgiraudo          #+#    #+#             */
-/*   Updated: 2023/06/13 18:04:55 by tgiraudo         ###   ########.fr       */
+/*   Updated: 2023/08/22 16:10:22 by tgiraudo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include"philo.h"
+#include "philo.h"
+
+void	ft_free_tab(t_philo **philo, int i)
+{
+	while (--i >= 0)
+		free(philo[i]);
+	free(philo);
+}
+
+static t_philo	*ft_init_philo(t_args *args, t_philo **philo, int i)
+{
+	(*philo)->args = args;
+	(*philo)->index = i + 1;
+	(*philo)->t_last_eat = 0;
+	(*philo)->nb_eat = 0;
+	(*philo)->is_dead = 0;
+	(*philo)->l_fork = i;
+	(*philo)->r_fork = (i + 1) % args->nb_philo;
+	(*philo)->args->time = ft_time();
+	return (*philo);
+}
 
 void	ft_create_philo(t_args *args)
 {
@@ -18,21 +38,21 @@ void	ft_create_philo(t_args *args)
 	t_philo	**philo;
 
 	philo = malloc(sizeof(t_philo) * args->nb_philo);
+	if (!philo)
+		return (ft_error("malloc"));
 	i = -1;
 	while (++i < args->nb_philo)
+	{
 		philo[i] = malloc(sizeof(t_philo));
+		if (!philo[i])
+			return (ft_destroy_mutex(args), ft_free_tab(philo, i), \
+				ft_error("malloc"));
+	}
 	i = -1;
 	pthread_mutex_lock(&args->m_stop);
 	while (++i < args->nb_philo)
 	{
-		philo[i]->args = args;
-		philo[i]->index = i + 1;
-		philo[i]->t_last_eat = 0;
-		philo[i]->nb_eat = 0;
-		philo[i]->is_dead = 0;
-		philo[i]->l_fork = i;
-		philo[i]->r_fork = (i + 1) % args->nb_philo;
-		philo[i]->args->time = ft_time();
+		ft_init_philo(args, &philo[i], i);
 		if (pthread_create(&philo[i]->thread, NULL, ft_philo, philo[i]))
 			return (ft_free(philo, args));
 	}

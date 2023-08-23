@@ -6,7 +6,7 @@
 #    By: tgiraudo <tgiraudo@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/01/27 15:42:44 by tgiraudo          #+#    #+#              #
-#    Updated: 2023/06/20 11:23:51 by tgiraudo         ###   ########.fr        #
+#    Updated: 2023/08/23 08:41:30 by tgiraudo         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -16,6 +16,7 @@ PRINT	= @printf
 LIST_SRCS	 =	main.c				\
 				ft_atoi.c			\
 				ft_check_args.c		\
+				ft_check_is_dead.c	\
 				ft_check_philo.c	\
 				ft_init_args.c		\
 				ft_philo.c 			\
@@ -35,7 +36,7 @@ D_UTILS = utils/
 # VARIABLES
 NAME	= philo
 CC			  = cc
-CFLAGS  = -Wall -Wextra -Werror -O2 -g3 -fsanitize=thread
+CFLAGS  = -Wall -Wextra -Werror -O2 -g3 # -fsanitize=thread
 RM			  = rm -rf
 MAKEFLAGS += --no-print-directory
 

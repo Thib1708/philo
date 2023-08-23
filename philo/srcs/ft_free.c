@@ -6,13 +6,13 @@
 /*   By: tgiraudo <tgiraudo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/13 17:51:25 by tgiraudo          #+#    #+#             */
-/*   Updated: 2023/06/20 11:24:35 by tgiraudo         ###   ########.fr       */
+/*   Updated: 2023/08/22 16:03:49 by tgiraudo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-static void	ft_destroy_mutex(t_args *args)
+void	ft_destroy_mutex(t_args *args)
 {
 	int	i;
 

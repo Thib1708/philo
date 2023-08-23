@@ -6,7 +6,7 @@
 /*   By: tgiraudo <tgiraudo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/13 12:26:17 by tgiraudo          #+#    #+#             */
-/*   Updated: 2023/06/13 18:07:20 by tgiraudo         ###   ########.fr       */
+/*   Updated: 2023/08/23 08:40:37 by tgiraudo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,29 +46,25 @@ typedef struct s_philo
 	int				nb_eat;
 	int				l_fork;
 	int				r_fork;
+	int				nb_fork;
 	int				is_dead;
 	pthread_t		thread;
 }	t_philo;
 
-/**************************MAIN**************************/
 t_args		*ft_init_args(int argc, char **argv);
 void		ft_create_philo(t_args *args);
-
-/**************************CHECK*************************/
 void		ft_check_args(int argc, char **argv);
-
-/**************************PHILO*************************/
 void		*ft_philo(void *s);
 void		ft_print(t_philo *philo, char *str);
-
-/**************************UTILS*************************/
 void		ft_error(char *msg);
 long long	ft_time(void);
 int			ft_atoi(const char *str);
 long long	ft_current_time(long long int time);
-void		ft_usleep(int ms);
+void		ft_usleep(int ms, t_philo *philo);
 
 int			ft_check_philo(t_philo **philo, t_args *args);
 void		ft_free(t_philo **philo, t_args *args);
+void		ft_destroy_mutex(t_args *args);
+int			ft_check_is_dead(t_philo *philo, t_args *args);
 
 #endif
