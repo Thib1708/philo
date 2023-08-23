@@ -6,7 +6,7 @@
 /*   By: tgiraudo <tgiraudo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/13 17:51:25 by tgiraudo          #+#    #+#             */
-/*   Updated: 2023/08/22 16:03:49 by tgiraudo         ###   ########.fr       */
+/*   Updated: 2023/08/23 18:42:28 by tgiraudo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,5 +47,6 @@ void	ft_free(t_philo **philo, t_args *args)
 	while (++i < args->nb_philo)
 		free(philo[i]);
 	free(args->m_forks);
+	free(args->all_forks);
 	free(philo);
 }

@@ -6,7 +6,7 @@
 /*   By: tgiraudo <tgiraudo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/14 13:05:08 by tgiraudo          #+#    #+#             */
-/*   Updated: 2023/08/23 18:12:58 by tgiraudo         ###   ########.fr       */
+/*   Updated: 2023/08/23 18:35:47 by tgiraudo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,10 +40,14 @@ static int	ft_take_one_fork(t_philo *philo, t_args *args, int fork)
 		if (args->all_forks[fork] == 0)
 			break ;
 		pthread_mutex_unlock(&args->m_forks[fork]);
-		// ft_usleep(10 * args->nb_philo, philo);
+		usleep(10);
 	}
 	args->all_forks[fork] = 1;
 	pthread_mutex_unlock(&args->m_forks[fork]);
+		pthread_mutex_lock(&args->m_stop);
+	if (philo->is_dead)
+		return (pthread_mutex_unlock(&args->m_stop), 1);
+	pthread_mutex_unlock(&args->m_stop);
 	ft_print(philo, "has taken a fork");
 	return (0);
 }
@@ -69,12 +73,20 @@ static int	ft_eat(t_philo *philo, t_args *args)
 {
 	if (ft_take_forks(philo, args))
 		return (1);
+	pthread_mutex_lock(&args->m_stop);
+	if (philo->is_dead)
+		return (pthread_mutex_unlock(&args->m_stop), 1);
+	pthread_mutex_unlock(&args->m_stop);
 	ft_print(philo, "is eating");
 	pthread_mutex_lock(&args->m_stop);
 	philo->t_last_eat = ft_current_time(args->time);
 	philo->nb_eat++;
 	pthread_mutex_unlock(&args->m_stop);
 	ft_usleep(args->t_eat, philo);
+	pthread_mutex_lock(&args->m_stop);
+	if (philo->is_dead)
+		return (pthread_mutex_unlock(&args->m_stop), 1);
+	pthread_mutex_unlock(&args->m_stop);
 	ft_print(philo, "is sleeping");
 	ft_free_fork(args, philo->l_fork);
 	ft_free_fork(args, philo->r_fork);
@@ -97,11 +109,9 @@ void	*ft_philo(void *s)
 	pthread_mutex_unlock(&args->m_stop);
 	if (philo->index % 2 == 0)
 		ft_usleep(100, philo);
+	ft_print(philo, "is thinking");
 	if (args->nb_philo == 1)
-	{
-		ft_print(philo, "is thinking");
 		return (ft_print(philo, "has taken a fork"), NULL);
-	}
 	while (1)
 	{
 		if (ft_check_is_dead(philo, args))
