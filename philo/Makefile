@@ -6,7 +6,7 @@
 #    By: tgiraudo <tgiraudo@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/01/27 15:42:44 by tgiraudo          #+#    #+#              #
-#    Updated: 2023/08/23 08:41:30 by tgiraudo         ###   ########.fr        #
+#    Updated: 2023/08/23 08:52:02 by tgiraudo         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -36,7 +36,7 @@ D_UTILS = utils/
 # VARIABLES
 NAME	= philo
 CC			  = cc
-CFLAGS  = -Wall -Wextra -Werror -O2 -g3 # -fsanitize=thread
+CFLAGS  = -Wall -Wextra -Werror -O2
 RM			  = rm -rf
 MAKEFLAGS += --no-print-directory
 
