@@ -6,13 +6,13 @@
 /*   By: tgiraudo <tgiraudo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/14 13:05:08 by tgiraudo          #+#    #+#             */
-/*   Updated: 2023/08/23 08:41:05 by tgiraudo         ###   ########.fr       */
+/*   Updated: 2023/08/23 18:12:58 by tgiraudo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-static void	ft_swap_fork(t_philo *philo)
+void	ft_swap_fork(t_philo *philo)
 {
 	int	swap;
 
@@ -26,33 +26,43 @@ static void	ft_swap_fork(t_philo *philo)
 
 static int	ft_take_one_fork(t_philo *philo, t_args *args, int fork)
 {
-	pthread_mutex_lock(&args->m_forks[fork]);
-	pthread_mutex_lock(&args->m_stop);
-	if (philo->is_dead)
+
+	while(1)
 	{
+		pthread_mutex_lock(&args->m_stop);
+		if (philo->is_dead)
+		{
+			pthread_mutex_unlock(&args->m_stop);
+			return (1);
+		}
 		pthread_mutex_unlock(&args->m_stop);
+		pthread_mutex_lock(&args->m_forks[fork]);
+		if (args->all_forks[fork] == 0)
+			break ;
 		pthread_mutex_unlock(&args->m_forks[fork]);
-		return (1);
+		// ft_usleep(10 * args->nb_philo, philo);
 	}
-	philo->nb_fork++;
-	pthread_mutex_unlock(&args->m_stop);
+	args->all_forks[fork] = 1;
+	pthread_mutex_unlock(&args->m_forks[fork]);
 	ft_print(philo, "has taken a fork");
 	return (0);
 }
 
 static int	ft_take_forks(t_philo *philo, t_args *args)
 {
-	philo->nb_fork = 0;
-	while (philo->nb_fork != 2)
-	{
-		usleep(10 * args->nb_philo);
-		ft_swap_fork(philo);
-		if (ft_take_one_fork(philo, args, philo->l_fork))
-			return (1);
-		if (ft_take_one_fork(philo, args, philo->r_fork))
-			return (pthread_mutex_unlock(&args->m_forks[philo->l_fork]), 1);
-	}
+		// ft_swap_fork(philo);
+	if (ft_take_one_fork(philo, args, philo->l_fork))
+		return (1);
+	if (ft_take_one_fork(philo, args, philo->r_fork))
+		return (1);
 	return (0);
+}
+
+static void	ft_free_fork(t_args *args, int fork)
+{
+	pthread_mutex_lock(&args->m_forks[fork]);
+	args->all_forks[fork] = 0;
+	pthread_mutex_unlock(&args->m_forks[fork]);
 }
 
 static int	ft_eat(t_philo *philo, t_args *args)
@@ -66,8 +76,8 @@ static int	ft_eat(t_philo *philo, t_args *args)
 	pthread_mutex_unlock(&args->m_stop);
 	ft_usleep(args->t_eat, philo);
 	ft_print(philo, "is sleeping");
-	pthread_mutex_unlock(&args->m_forks[philo->l_fork]);
-	pthread_mutex_unlock(&args->m_forks[philo->r_fork]);
+	ft_free_fork(args, philo->l_fork);
+	ft_free_fork(args, philo->r_fork);
 	ft_usleep(args->t_sleep, philo);
 	pthread_mutex_lock(&args->m_stop);
 	if (philo->is_dead)

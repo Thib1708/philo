@@ -6,7 +6,7 @@
 /*   By: tgiraudo <tgiraudo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/13 18:04:44 by tgiraudo          #+#    #+#             */
-/*   Updated: 2023/06/13 18:07:34 by tgiraudo         ###   ########.fr       */
+/*   Updated: 2023/08/23 18:09:13 by tgiraudo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,14 +19,20 @@ static int	ft_mutex_init(t_args *args)
 	args->m_forks = malloc(sizeof(pthread_mutex_t) * args->nb_philo);
 	if (!args->m_forks)
 		return (1);
+	args->all_forks = malloc(sizeof(int) * args->nb_philo);
+	if (!args->all_forks)
+		return (free(args->m_forks), 1);
 	i = -1;
 	while (++i < args->nb_philo)
+	{
 		if (pthread_mutex_init(&args->m_forks[i], NULL))
-			return (1);
+			return (free(args->m_forks), free(args->all_forks), 1);
+		args->all_forks[i] = 0;
+	}
 	if (pthread_mutex_init(&args->m_print, NULL))
-		return (1);
+		return (free(args->m_forks), free(args->all_forks), 1);
 	if (pthread_mutex_init(&args->m_stop, NULL))
-		return (1);
+		return (free(args->m_forks), free(args->all_forks), 1);
 	return (0);
 }
 

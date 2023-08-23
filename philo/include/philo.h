@@ -6,7 +6,7 @@
 /*   By: tgiraudo <tgiraudo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/13 12:26:17 by tgiraudo          #+#    #+#             */
-/*   Updated: 2023/08/23 08:40:37 by tgiraudo         ###   ########.fr       */
+/*   Updated: 2023/08/23 18:00:49 by tgiraudo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,7 @@ typedef struct s_args
 	int				fork;
 	int				n_eat;
 	int				is_dead;
+	int				*all_forks;
 	pthread_mutex_t	*m_forks;
 	pthread_mutex_t	m_print;
 	pthread_mutex_t	m_stop;
@@ -46,7 +47,6 @@ typedef struct s_philo
 	int				nb_eat;
 	int				l_fork;
 	int				r_fork;
-	int				nb_fork;
 	int				is_dead;
 	pthread_t		thread;
 }	t_philo;
