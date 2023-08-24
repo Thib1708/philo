@@ -6,7 +6,7 @@
 /*   By: tgiraudo <tgiraudo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/13 18:04:44 by tgiraudo          #+#    #+#             */
-/*   Updated: 2023/08/23 18:09:13 by tgiraudo         ###   ########.fr       */
+/*   Updated: 2023/08/24 08:13:27 by tgiraudo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ t_args	*ft_init_args(int argc, char **argv)
 	args->n_eat = 0;
 	args->is_dead = 0;
 	if (ft_mutex_init(args))
-		return (NULL);
+		return (free(args), NULL);
 	if (argc == 6)
 		args->must_eat = ft_atoi(argv[5]);
 	else

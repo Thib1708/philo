@@ -6,28 +6,15 @@
 /*   By: tgiraudo <tgiraudo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/14 13:05:08 by tgiraudo          #+#    #+#             */
-/*   Updated: 2023/08/23 18:35:47 by tgiraudo         ###   ########.fr       */
+/*   Updated: 2023/08/24 08:08:58 by tgiraudo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-void	ft_swap_fork(t_philo *philo)
-{
-	int	swap;
-
-	if (philo->l_fork < philo->r_fork)
-	{
-		swap = philo->l_fork;
-		philo->l_fork = philo->r_fork;
-		philo->r_fork = swap;
-	}
-}
-
 static int	ft_take_one_fork(t_philo *philo, t_args *args, int fork)
 {
-
-	while(1)
+	while (1)
 	{
 		pthread_mutex_lock(&args->m_stop);
 		if (philo->is_dead)
@@ -44,7 +31,7 @@ static int	ft_take_one_fork(t_philo *philo, t_args *args, int fork)
 	}
 	args->all_forks[fork] = 1;
 	pthread_mutex_unlock(&args->m_forks[fork]);
-		pthread_mutex_lock(&args->m_stop);
+	pthread_mutex_lock(&args->m_stop);
 	if (philo->is_dead)
 		return (pthread_mutex_unlock(&args->m_stop), 1);
 	pthread_mutex_unlock(&args->m_stop);
@@ -54,7 +41,6 @@ static int	ft_take_one_fork(t_philo *philo, t_args *args, int fork)
 
 static int	ft_take_forks(t_philo *philo, t_args *args)
 {
-		// ft_swap_fork(philo);
 	if (ft_take_one_fork(philo, args, philo->l_fork))
 		return (1);
 	if (ft_take_one_fork(philo, args, philo->r_fork))
